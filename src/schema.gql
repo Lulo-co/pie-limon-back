@@ -12,3 +12,12 @@ type Recipe {
 type Query {
   getRecipes: [Recipe!]!
 }
+
+type Mutation {
+  addRecipe(newRecipe: RecipeInput!): Recipe!
+}
+
+"""A new recipe"""
+input RecipeInput {
+  name: String!
+}
