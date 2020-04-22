@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as PostgressConnectionStringParser from 'pg-connection-string';
 
 import { RecipesModule } from './recipes/recipes.module';
+import { ThirdPartyServicesModule } from './third-party-services/third-party-services.module';
 
 const dbOptions: TypeOrmModuleAsyncOptions = {
   useFactory: () => {
@@ -29,6 +30,7 @@ const dbOptions: TypeOrmModuleAsyncOptions = {
     GraphQLModule.forRoot({ autoSchemaFile: join(process.cwd(), 'src/schema.gql') }),
     TypeOrmModule.forRootAsync(dbOptions),
     RecipesModule,
+    ThirdPartyServicesModule,
   ],
 })
 export class AppModule { }
