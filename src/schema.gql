@@ -2,12 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type File {
-  filename: String!
-  mimetype: String!
-  encoding: String!
-}
-
 type Recipe {
   id: ID!
 
@@ -21,7 +15,7 @@ type Query {
 
 type Mutation {
   addRecipe(newRecipe: RecipeInput!): Recipe!
-  singleUpload(file: FileInput!): File!
+  attachRecipePhoto(recipeId: Int!, file: FileInput!): Boolean!
 }
 
 """A new recipe"""
