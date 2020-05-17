@@ -5,9 +5,10 @@ import { Recipe } from './recipe.entity';
 import { RecipesResolver } from './recipes.resolver';
 import { RecipesService } from './recipes.service';
 import { UploadScalar } from './upload.scalar';
+import { Photo } from './photo.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Recipe])],
+  imports: [TypeOrmModule.forFeature([Recipe, Photo])],
   providers: [RecipesResolver, RecipesService, UploadScalar]
 })
 export class RecipesModule { }

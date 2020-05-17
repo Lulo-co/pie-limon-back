@@ -1,7 +1,5 @@
-import { Resolver, Query, Mutation, Args } from "@nestjs/graphql";
-import * as fs from "fs";
+import { Resolver, Query, Mutation, Args, Int } from "@nestjs/graphql";
 
-import { File } from "./file.model";
 import { FileInput } from "./file.dto";
 import { Recipe } from "./recipe.model";
 import { RecipeInput } from "./recipe.dto";
@@ -21,11 +19,12 @@ export class RecipesResolver {
     return this.recipesService.create(recipe);
   }
 
-  @Mutation(() => File)
-  async singleUpload(@Args('file') file: FileInput) {
-    const { createReadStream, filename } = await file.file;
-    const fileStream = createReadStream();
-    fileStream.pipe(fs.createWriteStream(`./${filename}`));
-    return file.file;
+  @Mutation(() => Boolean)
+  async attachRecipePhoto(
+    @Args('file') file: FileInput,
+    @Args('recipeId', { type: () => Int }) recipeId: number,
+  ) {
+    const fileContent = await file.file;
+    return this.recipesService.attachPhoto(recipeId, fileContent);
   }
 }
