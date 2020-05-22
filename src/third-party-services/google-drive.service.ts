@@ -13,7 +13,15 @@ export class GoogleDriveService {
     this.drive = google.drive({ version: "v3", auth });
   }
 
-  createFile(fileName: string, mimeType: string, body: string): Promise<string> {
+  /**
+   * Create a file in a google drive folder
+   * @param fileName
+   * @param mimeType
+   * @param body
+   *
+   * @returns Promises with id of file created
+   */
+  createFile(fileName: string, mimeType: string, body: NodeJS.ReadStream): Promise<string> {
     const fileMetadata = {
       name: fileName,
       parents: [process.env.GDRIVE_ROOT_FOLDER],
@@ -26,7 +34,7 @@ export class GoogleDriveService {
         fields: 'id'
       }, function (err, res) {
         if (err) return reject(err);
-        return resolve(res.data.id);
+        return resolve(`https://drive.google.com/uc?id=${res.data.id}`);
       });
     })
   }

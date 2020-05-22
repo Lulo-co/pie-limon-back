@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as fs from "fs";
 
 import { GoogleDriveService } from 'src/third-party-services/google-drive.service';
 import { Recipe as RecipeEntity } from './recipe.entity';
@@ -34,13 +33,11 @@ export class RecipesService {
     try {
       const recipe = await this.recipeRepository.findOne(recipeId);
       if (!recipe) throw new Error('recipe doesn\'t exist')
-      // TODO: Replace for gDrive
-      const { createReadStream, filename } = file;
-      const fileStream = createReadStream();
-      fileStream.pipe(fs.createWriteStream(`./${filename}`));
-      // await this.gDriveService.createFile(entity.name , 'text/plain', 'My body');
-      // TODO: Replace filename for url
-      const entity = this.photoRepository.create({ recipe, url: filename });
+
+      const { createReadStream, filename, mimetype } = file;
+      const url = await this.gDriveService.createFile(filename, mimetype, createReadStream());
+
+      const entity = this.photoRepository.create({ recipe, url });
       await this.photoRepository.save(entity);
       return true;
     } catch (err) {
