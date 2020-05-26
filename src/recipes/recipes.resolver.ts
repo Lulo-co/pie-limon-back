@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from "@nestjs/graphql";
+import { Resolver, Query, Mutation, Args, ID } from "@nestjs/graphql";
 
 import { FileInput } from "./file.dto";
 import { Recipe } from "./recipe.model";
@@ -22,7 +22,7 @@ export class RecipesResolver {
   @Mutation(() => Boolean)
   async attachRecipePhoto(
     @Args('file') file: FileInput,
-    @Args('recipeId', { type: () => Int }) recipeId: number,
+    @Args('recipeId', { type: () => ID }) recipeId: number,
   ) {
     const fileContent = await file.file;
     return this.recipesService.attachPhoto(recipeId, fileContent);
