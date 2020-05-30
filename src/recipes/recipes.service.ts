@@ -3,10 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { GoogleDriveService } from 'src/third-party-services/google-drive.service';
-import { Recipe as RecipeEntity } from './recipe.entity';
-import { Recipe } from './recipe.model';
+import { Recipe } from './recipe.entity';
 import { RecipeInput } from './recipe.dto';
-import { Photo as PhotoEntity } from './photo.entity';
+import { Photo } from './photo.entity';
 import { Upload } from './upload.scalar';
 
 @Injectable()
@@ -14,17 +13,17 @@ export class RecipesService {
   private readonly logger = new Logger(RecipesService.name);
 
   constructor(
-    @InjectRepository(RecipeEntity) private recipeRepository: Repository<RecipeEntity>,
-    @InjectRepository(PhotoEntity) private photoRepository: Repository<PhotoEntity>,
+    @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
+    @InjectRepository(Photo) private photoRepository: Repository<Photo>,
     private gDriveService: GoogleDriveService,
   ) { }
 
   async findAll(): Promise<Recipe[]> {
-    return this.recipeRepository.find();
+    return this.recipeRepository.find({ relations: ['photos'] });
   }
 
   async create(recipe: RecipeInput): Promise<Recipe> {
-    const entity = new RecipeEntity();
+    const entity = new Recipe();
     entity.name = recipe.name;
     return this.recipeRepository.save(entity);
   }
