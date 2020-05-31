@@ -22,6 +22,10 @@ export class RecipesService {
     return this.recipeRepository.find({ relations: ['photos'] });
   }
 
+  findOne(recipeId: number): Promise<Recipe> {
+    return this.recipeRepository.findOne(recipeId, { relations: ['photos'] });
+  }
+
   async create(recipe: RecipeInput): Promise<Recipe> {
     const entity = new Recipe();
     entity.name = recipe.name;
