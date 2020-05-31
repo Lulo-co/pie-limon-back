@@ -19,7 +19,7 @@ export class RecipesService {
   ) { }
 
   async findAll(): Promise<Recipe[]> {
-    return this.recipeRepository.find({ relations: ['photos'] });
+    return this.recipeRepository.find({ relations: ['photos'], order: { name: 'ASC' } });
   }
 
   findOne(recipeId: number): Promise<Recipe | undefined> {
