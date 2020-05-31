@@ -22,7 +22,7 @@ export class RecipesService {
     return this.recipeRepository.find({ relations: ['photos'] });
   }
 
-  findOne(recipeId: number): Promise<Recipe> {
+  findOne(recipeId: number): Promise<Recipe | undefined> {
     return this.recipeRepository.findOne(recipeId, { relations: ['photos'] });
   }
 

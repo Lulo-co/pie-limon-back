@@ -19,7 +19,9 @@ export class RecipesResolver {
   async getRecipe(
     @Args('recipeId', { type: () => ID }) recipeId: number,
   ): Promise<RecipeEntity> {
-    return this.recipesService.findOne(recipeId);
+    const recipe = await this.recipesService.findOne(recipeId);
+    if (!recipe) throw new Error('Receta no encontrada');
+    return recipe;
   }
 
   @Mutation(() => Recipe)
