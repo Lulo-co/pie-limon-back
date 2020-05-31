@@ -1,21 +1,31 @@
-import { Resolver, Query, Mutation, Args, ID } from "@nestjs/graphql";
+import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
 
-import { FileInput } from "./file.dto";
-import { Recipe } from "./recipe.model";
-import { RecipeInput } from "./recipe.dto";
-import { RecipesService } from "./recipes.service";
+import { FileInput } from './file.dto';
+import { Recipe } from './recipe.model';
+import { Recipe as RecipeEntity } from './recipe.entity';
+import { RecipeInput } from './recipe.dto';
+import { RecipesService } from './recipes.service';
 
 @Resolver()
 export class RecipesResolver {
   constructor(private recipesService: RecipesService) { }
 
   @Query(() => [Recipe])
-  async getRecipes() {
+  async getRecipes(): Promise<RecipeEntity[]> {
     return this.recipesService.findAll();
   }
 
+  @Query(() => Recipe)
+  async getRecipe(
+    @Args('recipeId', { type: () => ID }) recipeId: number,
+  ): Promise<RecipeEntity> {
+    const recipe = await this.recipesService.findOne(recipeId);
+    if (!recipe) throw new Error('Receta no encontrada');
+    return recipe;
+  }
+
   @Mutation(() => Recipe)
-  async addRecipe(@Args('newRecipe') recipe: RecipeInput) {
+  async addRecipe(@Args('newRecipe') recipe: RecipeInput): Promise<RecipeEntity> {
     return this.recipesService.create(recipe);
   }
 
@@ -23,7 +33,7 @@ export class RecipesResolver {
   async attachRecipePhoto(
     @Args('file') file: FileInput,
     @Args('recipeId', { type: () => ID }) recipeId: number,
-  ) {
+  ): Promise<boolean> {
     const fileContent = await file.file;
     return this.recipesService.attachPhoto(recipeId, fileContent);
   }

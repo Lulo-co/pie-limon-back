@@ -21,6 +21,7 @@ type Recipe {
 
 type Query {
   getRecipes: [Recipe!]!
+  getRecipe(recipeId: ID!): Recipe!
 }
 
 type Mutation {
