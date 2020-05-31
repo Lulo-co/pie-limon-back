@@ -2,11 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Photo {
+  id: ID!
+
+  """Photo url"""
+  url: String!
+}
+
 type Recipe {
   id: ID!
 
   """Recipe title"""
   name: String!
+
+  """Associated photos """
+  photos: [Photo!]!
 }
 
 type Query {
