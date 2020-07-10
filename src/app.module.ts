@@ -27,7 +27,7 @@ const dbOptions: TypeOrmModuleAsyncOptions = {
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    GraphQLModule.forRoot({ autoSchemaFile: join(process.cwd(), 'src/schema.gql') }),
+    GraphQLModule.forRoot({ autoSchemaFile: join(process.cwd(), 'src/schema.gql'), cors: { origin: true } }),
     TypeOrmModule.forRootAsync(dbOptions),
     RecipesModule,
     ThirdPartyServicesModule,
