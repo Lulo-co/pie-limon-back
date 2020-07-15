@@ -9,6 +9,9 @@ export class Recipe {
   @Column()
   name: string;
 
-  @OneToMany(() => Photo, photo => photo.recipe)
+  @OneToMany(
+    () => Photo,
+    photo => photo.recipe,
+  )
   photos: Photo[];
 }

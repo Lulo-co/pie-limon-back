@@ -1,4 +1,4 @@
-import { InputType, Field } from "@nestjs/graphql";
+import { InputType, Field } from '@nestjs/graphql';
 
 @InputType({ description: 'A new recipe' })
 export class RecipeInput {
