@@ -16,10 +16,13 @@ export class RecipesService {
     @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
     @InjectRepository(Photo) private photoRepository: Repository<Photo>,
     private gDriveService: GoogleDriveService,
-  ) { }
+  ) {}
 
   async findAll(): Promise<Recipe[]> {
-    return this.recipeRepository.find({ relations: ['photos'], order: { name: 'ASC' } });
+    return this.recipeRepository.find({
+      relations: ['photos'],
+      order: { name: 'ASC' },
+    });
   }
 
   findOne(recipeId: number): Promise<Recipe | undefined> {
@@ -35,16 +38,20 @@ export class RecipesService {
   async attachPhoto(recipeId: number, file: Upload): Promise<boolean> {
     try {
       const recipe = await this.recipeRepository.findOne(recipeId);
-      if (!recipe) throw new Error('recipe doesn\'t exist')
+      if (!recipe) throw new Error("recipe doesn't exist");
 
       const { createReadStream, filename, mimetype } = file;
-      const url = await this.gDriveService.createFile(filename, mimetype, createReadStream());
+      const url = await this.gDriveService.createFile(
+        filename,
+        mimetype,
+        createReadStream(),
+      );
 
       const entity = this.photoRepository.create({ recipe, url });
       await this.photoRepository.save(entity);
       return true;
     } catch (err) {
-      this.logger.error(err.message, err.stack)
+      this.logger.error(err.message, err.stack);
       return false;
     }
   }

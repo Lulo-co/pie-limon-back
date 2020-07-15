@@ -5,6 +5,7 @@ import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import * as PostgressConnectionStringParser from 'pg-connection-string';
 
+import { AuthModule } from './auth/auth.module';
 import { RecipesModule } from './recipes/recipes.module';
 import { ThirdPartyServicesModule } from './third-party-services/third-party-services.module';
 
@@ -31,6 +32,7 @@ const dbOptions: TypeOrmModuleAsyncOptions = {
     TypeOrmModule.forRootAsync(dbOptions),
     RecipesModule,
     ThirdPartyServicesModule,
+    AuthModule
   ],
 })
 export class AppModule { }

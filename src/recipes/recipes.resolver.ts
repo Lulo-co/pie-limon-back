@@ -2,11 +2,11 @@ import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
 import { FileInput } from './file.dto';
+import { GoogleAuthGuard } from '../common/guards/google-auth.guard';
 import { Recipe } from './recipe.model';
 import { Recipe as RecipeEntity } from './recipe.entity';
 import { RecipeInput } from './recipe.dto';
 import { RecipesService } from './recipes.service';
-import { GoogleAuthGuard } from '../auth/google-auth.guard';
 
 @UseGuards(GoogleAuthGuard)
 @Resolver()
