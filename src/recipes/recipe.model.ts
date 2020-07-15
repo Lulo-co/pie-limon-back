@@ -1,5 +1,5 @@
-import { ObjectType, Field, ID } from "@nestjs/graphql";
-import { Photo } from "./photo.model";
+import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { Photo } from './photo.model';
 
 @ObjectType()
 export class Recipe {
@@ -9,6 +9,6 @@ export class Recipe {
   @Field({ description: 'Recipe title' })
   name: string;
 
-  @Field(() => [Photo], { description: 'Associated photos '})
+  @Field(() => [Photo], { description: 'Associated photos ' })
   photos: Photo[];
 }

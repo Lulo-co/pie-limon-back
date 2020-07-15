@@ -1,4 +1,4 @@
-import { Scalar } from "@nestjs/graphql";
+import { Scalar } from '@nestjs/graphql';
 
 export class Upload {
   filename: string;

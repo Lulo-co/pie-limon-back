@@ -9,6 +9,6 @@ import { Photo } from './photo.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Recipe, Photo])],
-  providers: [RecipesResolver, RecipesService, UploadScalar]
+  providers: [RecipesResolver, RecipesService, UploadScalar],
 })
-export class RecipesModule { }
+export class RecipesModule {}

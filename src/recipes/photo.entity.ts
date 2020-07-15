@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { Recipe } from "./recipe.entity";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Recipe } from './recipe.entity';
 
 @Entity()
 export class Photo {
@@ -9,6 +9,10 @@ export class Photo {
   @Column()
   url: string;
 
-  @ManyToOne(() => Recipe, recipe => recipe.photos, { nullable: false })
+  @ManyToOne(
+    () => Recipe,
+    recipe => recipe.photos,
+    { nullable: false },
+  )
   recipe: Recipe;
 }

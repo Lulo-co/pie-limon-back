@@ -4,6 +4,6 @@ import { GoogleDriveService } from './google-drive.service';
 @Global()
 @Module({
   providers: [GoogleDriveService],
-  exports: [GoogleDriveService]
+  exports: [GoogleDriveService],
 })
-export class ThirdPartyServicesModule { }
+export class ThirdPartyServicesModule {}
