@@ -23,6 +23,13 @@ const dbOptions: TypeOrmModuleAsyncOptions = {
       database: connectionOptions.database,
       autoLoadEntities: true,
       synchronize: true,
+      // Heroku requires SSL true and self signed cert
+      ssl: connectionOptions.ssl !== 'false',
+      extra: {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      },
     };
   },
 };
