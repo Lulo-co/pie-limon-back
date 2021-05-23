@@ -15,6 +15,10 @@ type Recipe {
   """Recipe title"""
   name: String!
 
+  """Recipe description"""
+  description: String
+  num_photos: Int!
+
   """Associated photos """
   photos: [Photo!]!
 }
@@ -26,12 +30,21 @@ type Query {
 
 type Mutation {
   addRecipe(newRecipe: RecipeInput!): Recipe!
+  editRecipe(recipe: EditRecipeInput!): Recipe!
   attachRecipePhoto(recipeId: ID!, file: FileInput!): Boolean!
+  deleteRecipePhoto(url: String!): Boolean!
 }
 
 """A new recipe"""
 input RecipeInput {
   name: String!
+}
+
+"""Edit a recipe"""
+input EditRecipeInput {
+  id: ID!
+  name: String
+  description: String
 }
 
 """A new recipe"""
