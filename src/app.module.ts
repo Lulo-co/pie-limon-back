@@ -14,6 +14,15 @@ const dbOptions: TypeOrmModuleAsyncOptions = {
     const connectionOptions = PostgressConnectionStringParser.parse(
       process.env.DATABASE_URL,
     );
+    const ssl = connectionOptions.ssl !== 'false';
+    let extra;
+    if (ssl) {
+      extra = {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      };
+    }
     return {
       type: 'postgres',
       host: connectionOptions.host,
@@ -24,12 +33,8 @@ const dbOptions: TypeOrmModuleAsyncOptions = {
       autoLoadEntities: true,
       synchronize: true,
       // Heroku requires SSL true and self signed cert
-      ssl: connectionOptions.ssl !== 'false',
-      extra: {
-        ssl: {
-          rejectUnauthorized: false,
-        },
-      },
+      ssl,
+      extra,
     };
   },
 };
