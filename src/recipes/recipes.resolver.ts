@@ -54,4 +54,11 @@ export class RecipesResolver {
   async deleteRecipePhoto(@Args('url') url: string): Promise<boolean> {
     return this.recipesService.deletePhoto(url);
   }
+
+  @Mutation(() => Boolean)
+  async deleteRecipe(
+    @Args('id', { type: () => ID }) id: number,
+  ): Promise<boolean> {
+    return this.recipesService.deleteRecipe(id);
+  }
 }
