@@ -5,7 +5,7 @@ import { FileInput } from './file.dto';
 import { GoogleAuthGuard } from '../common/guards/google-auth.guard';
 import { Recipe } from './recipe.model';
 import { Recipe as RecipeEntity } from './recipe.entity';
-import { RecipeInput } from './recipe.dto';
+import { RecipeInput, EditRecipeInput, RecipeOutput } from './recipe.dto';
 import { RecipesService } from './recipes.service';
 
 @UseGuards(GoogleAuthGuard)
@@ -14,7 +14,7 @@ export class RecipesResolver {
   constructor(private recipesService: RecipesService) {}
 
   @Query(() => [Recipe])
-  async getRecipes(): Promise<RecipeEntity[]> {
+  async getRecipes(): Promise<RecipeOutput[]> {
     return this.recipesService.findAll();
   }
 
@@ -34,6 +34,13 @@ export class RecipesResolver {
     return this.recipesService.create(recipe);
   }
 
+  @Mutation(() => Recipe)
+  async editRecipe(
+    @Args('recipe') recipe: EditRecipeInput,
+  ): Promise<RecipeEntity> {
+    return this.recipesService.edit(recipe);
+  }
+
   @Mutation(() => Boolean)
   async attachRecipePhoto(
     @Args('file') file: FileInput,
@@ -41,5 +48,10 @@ export class RecipesResolver {
   ): Promise<boolean> {
     const fileContent = await file.file;
     return this.recipesService.attachPhoto(recipeId, fileContent);
+  }
+
+  @Mutation(() => Boolean)
+  async deleteRecipePhoto(@Args('url') url: string): Promise<boolean> {
+    return this.recipesService.deletePhoto(url);
   }
 }

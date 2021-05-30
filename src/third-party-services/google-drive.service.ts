@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { google } from 'googleapis';
+import { google, drive_v3 as DriveV3 } from 'googleapis';
+
+const FILE_URL = 'https://drive.google.com/uc?id=';
 
 @Injectable()
 export class GoogleDriveService {
-  drive;
+  private drive: DriveV3.Drive;
+
   constructor() {
     const scopes = ['https://www.googleapis.com/auth/drive'];
     const auth = new google.auth.JWT(
@@ -36,15 +39,20 @@ export class GoogleDriveService {
     return new Promise((resolve, reject) => {
       this.drive.files.create(
         {
-          resource: fileMetadata,
+          requestBody: fileMetadata,
           media: file,
           fields: 'id',
         },
         function(err, res) {
           if (err) return reject(err);
-          return resolve(`https://drive.google.com/uc?id=${res.data.id}`);
+          return resolve(`${FILE_URL}${res.data.id}`);
         },
       );
     });
+  }
+
+  async deleteFile(url: string): Promise<void> {
+    const fileId = url.replace(FILE_URL, '');
+    await this.drive.files.delete({ fileId });
   }
 }

@@ -9,6 +9,9 @@ export class Recipe {
   @Column()
   name: string;
 
+  @Column('text', { nullable: true })
+  description: string;
+
   @OneToMany(
     () => Photo,
     photo => photo.recipe,
