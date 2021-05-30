@@ -77,4 +77,21 @@ export class RecipesService {
       return false;
     }
   }
+
+  async deleteRecipe(id: number): Promise<boolean> {
+    try {
+      const recipe = await this.recipeRepository.findOne(id, {
+        relations: ['photos'],
+      });
+      if (!recipe) throw new Error('Receta no encontrada');
+      recipe.photos.forEach(async photo => {
+        await this.deletePhoto(photo.url);
+      });
+      await this.recipeRepository.delete({ id });
+      return true;
+    } catch (err) {
+      this.logger.error(err.message, err.stack);
+      return false;
+    }
+  }
 }

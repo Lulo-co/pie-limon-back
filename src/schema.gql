@@ -33,6 +33,7 @@ type Mutation {
   editRecipe(recipe: EditRecipeInput!): Recipe!
   attachRecipePhoto(recipeId: ID!, file: FileInput!): Boolean!
   deleteRecipePhoto(url: String!): Boolean!
+  deleteRecipe(id: ID!): Boolean!
 }
 
 """A new recipe"""
